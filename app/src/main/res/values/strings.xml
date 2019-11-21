@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">AdMobSample</string>
+
+    <string name="ad_mob_app_id" translatable="false"></string>
+
+    <!-- Advertise ADM -->
+    <string name="adm_ad_unit_banner_id_dummy">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="adm_ad_unit_interstitial_id_dummy">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="adm_ad_unit_interstitial_video_id_dummy">ca-app-pub-3940256099942544/8691691433</string>
+    <string name="adm_ad_unit_reward_video_id_dummy">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="adm_ad_unit_native_id_dummy">ca-app-pub-3940256099942544/1044960115</string>
+    <string name="adm_ad_unit_native_video_id_dummy">ca-app-pub-3940256099942544/1044960115</string>
+</resources>
