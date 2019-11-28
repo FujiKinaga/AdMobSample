@@ -18,7 +18,7 @@ class App : DaggerApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        MobileAds.initialize(this, getString(R.string.ad_mob_app_id))
+        MobileAds.initialize(this)
         plantTimber()
     }
 
