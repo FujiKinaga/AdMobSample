@@ -1,14 +1,82 @@
+# built application files
+*.apk
+*.ap_
+ 
+# files for the dex VM
+*.dex
+ 
+# Java class files
+*.class
+ 
+# generated files
+bin/
+gen/
+lint.xml
+ 
+# Local configuration file (sdk path, etc)
+local.properties
+ 
+# eclipse settings
+*.pydevproject
+.project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+ 
+# External tool builders
+.externalToolBuilders/
+ 
+# Locally stored "Eclipse launch configurations"
+*.launch
+ 
+# CDT-specific
+.cproject
+ 
+# PDT-specific
+.buildpath
+ 
+# Intellij
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
+*.ipr
+*.iws
+.idea/*.sh
+.idea/libraries/
+.idea/caches/
+.idea/codeStyles/
+.idea/dictionaries/
+.idea/gradle.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/render.experimental.xml
+.idea/runConfigurations.xml
+.idea/vcs.xml
+.idea/workspace.xml
+.idea/compiler.xml
+.idea/encodings.xml
+.idea/scopes/scope_settings.xml
+
+# Android Studio
+.gradle/
+build/
+*.iml
+
+# Other
 .DS_Store
-/build
-/captures
+.bundle
 .externalNativeBuild
-.cxx
+vendor/
+Gemfile.lock
+captures/
+class_files.txt
+mapping.txt
+seeds.txt
+unused.txt
