@@ -11,6 +11,9 @@ AdManager in Android
 - CustomEvent (Banner)
 - CustomEvent (Native)
 
+# Get Started
+- Please put your adMob's app id in `ad_mob_app_id` .
+
 # Cresit
 - Android JetPack
   - Foundation
