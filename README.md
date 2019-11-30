@@ -14,7 +14,7 @@ AdManager in Android
 # Get Started
 - Please put your adMob's app id in `ad_mob_app_id` .
 
-# Cresit
+# Credit
 - Android JetPack
   - Foundation
     - AppCompat
