@@ -2,16 +2,16 @@ package fujikinaga.sample.admobsample.ad.customevent
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.VideoOptions
+import com.google.android.gms.ads.formats.NativeAdOptions
 import com.google.android.gms.ads.mediation.NativeMediationAdRequest
 import com.google.android.gms.ads.mediation.customevent.CustomEventNative
 import com.google.android.gms.ads.mediation.customevent.CustomEventNativeListener
-import fujikinaga.sample.admobsample.ad.Ad
-import fujikinaga.sample.admobsample.ad.adm.NativeAd
 
 class NativeCustomEvent : CustomEventNative {
-
-    private var ad: Ad? = null
 
     override fun requestNativeAd(
         context: Context,
@@ -22,32 +22,64 @@ class NativeCustomEvent : CustomEventNative {
     ) {
         val unitIdRes = customEventExtras?.getInt("unitIdRes") ?: return
 
-        ad = NativeAd(context, unitIdRes)
-        ad?.also {
-            it.setCallback(object : Ad.Callback {
-                override fun onSuccess(view: View?) {
-                    it.getNativeAd()?.value?.let {
-                        customEventNativeListener.onAdLoaded(NativeCustomEventAdMapper(it))
-                    }
+        val builder = AdLoader.Builder(context, context.getString(unitIdRes))
+
+        val adRequest = AdRequest.Builder().build()
+
+        val videoOptions = VideoOptions.Builder()
+            .setStartMuted(true)
+            .setCustomControlsRequested(true)
+            .build()
+
+        val adOptions = NativeAdOptions.Builder()
+            .setVideoOptions(videoOptions)
+            .setMediaAspectRatio(NativeAdOptions.NATIVE_MEDIA_ASPECT_RATIO_LANDSCAPE)
+            .build()
+
+        builder
+            .forUnifiedNativeAd { nativeAd ->
+                customEventNativeListener.onAdLoaded(NativeCustomEventAdMapper(nativeAd))
+            }
+            .withAdListener(object : AdListener() {
+                override fun onAdImpression() {
+                    customEventNativeListener.onAdImpression()
                 }
 
-                override fun onFailure(errorCode: Int) {
+                override fun onAdLeftApplication() {
+                    customEventNativeListener.onAdLeftApplication()
+                }
+
+                override fun onAdClicked() {
+                    customEventNativeListener.onAdClicked()
+                }
+
+                override fun onAdFailedToLoad(errorCode: Int) {
                     customEventNativeListener.onAdFailedToLoad(errorCode)
                 }
+
+                override fun onAdClosed() {
+                    customEventNativeListener.onAdClosed()
+                }
+
+                override fun onAdOpened() {
+                    customEventNativeListener.onAdOpened()
+                }
             })
-            it.load()
-        }
+            .withNativeAdOptions(adOptions)
+            .build().also {
+                it.loadAd(adRequest)
+            }
     }
 
     override fun onResume() {
-        ad?.resume()
+
     }
 
     override fun onPause() {
-        ad?.pause()
+
     }
 
     override fun onDestroy() {
-        ad = null
+
     }
 }

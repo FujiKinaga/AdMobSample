@@ -1,6 +1,8 @@
 package fujikinaga.sample.admobsample.ui.main.item
 
 import android.view.View
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.google.android.gms.ads.formats.UnifiedNativeAd
@@ -35,6 +37,8 @@ class NativeAdItem(
         binding.also {
             ad = listener.getAd()
 
+            it.adView.isGone = true
+
             it.lifecycleOwner?.let { lifecycleOwner ->
                 ad?.getNativeAd()?.observe(lifecycleOwner, nativeAdViewObserver)
             }
@@ -42,15 +46,21 @@ class NativeAdItem(
     }
 
     override fun unbind(viewHolder: GroupieViewHolder<ItemNativeAdBinding>) {
-        binding = null
         ad?.getNativeAd()?.removeObserver(nativeAdViewObserver)
         ad = null
+
+        binding?.also {
+            it.adView.isGone = true
+            binding = null
+        }
         super.unbind(viewHolder)
     }
 
     private val nativeAdViewObserver = Observer<UnifiedNativeAd> { nativeAd: UnifiedNativeAd? ->
         binding?.also {
             AdUtil.populateNativeAdView(nativeAd, it.adView)
+            val shouldShowNativeAdView = nativeAd != null
+            it.adView.isVisible = shouldShowNativeAdView
             it.executePendingBindings()
         }
     }

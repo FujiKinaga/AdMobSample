@@ -13,6 +13,7 @@
             android:layout_marginBottom="2dp"
             android:layout_marginTop="14dp"
             android:minWidth="@dimen/rectangle_ad_width"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

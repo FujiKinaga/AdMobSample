@@ -7,7 +7,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.google.android.gms.ads.AdSize
 import fujikinaga.sample.admobsample.R
 import fujikinaga.sample.admobsample.ad.Ad
-import fujikinaga.sample.admobsample.ad.adm.BannerAd
+import fujikinaga.sample.admobsample.ad.impl.BannerAd
 import timber.log.Timber
 
 class BottomAdManager : LifecycleObserver {

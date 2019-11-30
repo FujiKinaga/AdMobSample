@@ -1,6 +1,8 @@
 package fujikinaga.sample.admobsample.ui.main.item
 
 import android.view.View
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.xwray.groupie.databinding.BindableItem
@@ -34,28 +36,32 @@ class BannerAdItem(
         binding.also {
             ad = listener.getAd()
 
+            it.inFeedContainer.isGone = true
+
             it.lifecycleOwner?.let { lifecycleOwner ->
                 ad?.getView()?.observe(lifecycleOwner, adViewObserver)
             }
         }
-        binding.lifecycleOwner?.let { lifecycleOwner ->
-            ad?.getView()?.observe(lifecycleOwner, Observer {
-                AdUtil.bindAdView(binding.inFeedContainer, it)
-                binding.executePendingBindings()
-            })
-        }
     }
 
     override fun unbind(viewHolder: GroupieViewHolder<ItemBannerAdBinding>) {
-        AdUtil.unbindAdView(viewHolder.binding.inFeedContainer)
         ad?.getView()?.removeObserver(adViewObserver)
         ad = null
+
+        binding?.also {
+            AdUtil.unbindAdView(it.inFeedContainer)
+
+            it.inFeedContainer.isGone = true
+            binding = null
+        }
         super.unbind(viewHolder)
     }
 
     private val adViewObserver = Observer<View> { view: View? ->
         binding?.also {
             AdUtil.bindAdView(it.inFeedContainer, view)
+            val shouldShowAdView = view != null
+            it.inFeedContainer.isVisible = shouldShowAdView
             it.executePendingBindings()
         }
     }

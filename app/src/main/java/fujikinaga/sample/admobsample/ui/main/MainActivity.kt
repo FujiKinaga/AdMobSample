@@ -2,6 +2,8 @@ package fujikinaga.sample.admobsample.ui.main
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import dagger.Module
 import dagger.Provides
@@ -48,17 +50,17 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     private fun hideBottomAdView() {
-        if (binding.bottomAdContainer.visibility == View.GONE) {
+        if (binding.bottomAdContainer.isGone) {
             return
         }
-        binding.bottomAdContainer.visibility = View.GONE
+        binding.bottomAdContainer.isGone = true
     }
 
     private fun showBottomAdView() {
-        if (binding.bottomAdContainer.visibility == View.VISIBLE) {
+        if (binding.bottomAdContainer.isVisible) {
             return
         }
-        binding.bottomAdContainer.visibility = View.VISIBLE
+        binding.bottomAdContainer.isVisible = true
     }
 
     override fun onDestroy() {

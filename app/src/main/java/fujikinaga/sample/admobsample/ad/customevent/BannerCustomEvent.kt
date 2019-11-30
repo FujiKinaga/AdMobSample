@@ -2,17 +2,17 @@ package fujikinaga.sample.admobsample.ad.customevent
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.mediation.MediationAdRequest
 import com.google.android.gms.ads.mediation.customevent.CustomEventBanner
 import com.google.android.gms.ads.mediation.customevent.CustomEventBannerListener
-import fujikinaga.sample.admobsample.ad.Ad
-import fujikinaga.sample.admobsample.ad.adm.BannerAd
 
 class BannerCustomEvent : CustomEventBanner {
 
-    private var ad: Ad? = null
+    private var adView: AdView? = null
 
     override fun requestBannerAd(
         context: Context, customEventBannerListener: CustomEventBannerListener,
@@ -22,30 +22,50 @@ class BannerCustomEvent : CustomEventBanner {
 
         val unitIdRes = customEventExtras?.getInt("unitIdRes") ?: return
 
-        ad = BannerAd(context, unitIdRes, adSize)
-        ad?.also {
-            it.setCallback(object : Ad.Callback {
-                override fun onSuccess(view: View?) {
-                    customEventBannerListener.onAdLoaded(view)
+        adView = AdView(context).also {
+            it.adSize = adSize
+            it.adUnitId = context.getString(unitIdRes)
+            it.adListener = object : AdListener() {
+                override fun onAdLoaded() {
+                    customEventBannerListener.onAdLoaded(it)
                 }
 
-                override fun onFailure(errorCode: Int) {
+                override fun onAdFailedToLoad(errorCode: Int) {
                     customEventBannerListener.onAdFailedToLoad(errorCode)
                 }
-            })
-            it.load()
+
+                override fun onAdLeftApplication() {
+                    customEventBannerListener.onAdLeftApplication()
+                }
+
+                override fun onAdClicked() {
+                    customEventBannerListener.onAdClicked()
+                }
+
+                override fun onAdClosed() {
+                    customEventBannerListener.onAdClosed()
+                }
+
+                override fun onAdOpened() {
+                    customEventBannerListener.onAdOpened()
+                }
+            }
+        }.also {
+            val adRequest = AdRequest.Builder().build()
+            it.loadAd(adRequest)
         }
     }
 
     override fun onResume() {
-        ad?.resume()
+        adView?.resume()
     }
 
     override fun onPause() {
-        ad?.pause()
+        adView?.pause()
     }
 
     override fun onDestroy() {
-        ad = null
+        adView?.destroy()
+        adView = null
     }
 }
