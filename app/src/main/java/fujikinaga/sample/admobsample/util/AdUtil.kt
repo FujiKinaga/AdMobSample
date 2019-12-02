@@ -15,12 +15,12 @@ import fujikinaga.sample.admobsample.ad.Ad
 object AdUtil {
 
     fun getIncrementedIndex(targetIndex: Int, adListSize: Int): Int {
-        var returnNextIndex = targetIndex + 1
-        if (returnNextIndex >= adListSize) {
+        var nextIndex = targetIndex + 1
+        if (nextIndex >= adListSize) {
             // 配列のサイズを超えたら0に戻す
-            returnNextIndex = 0
+            nextIndex = 0
         }
-        return returnNextIndex
+        return nextIndex
     }
 
     fun getNextLoadAdIndex(nextLoadAdOffset: Int, targetIndex: Int, adListSize: Int): Int {
@@ -31,25 +31,25 @@ object AdUtil {
         return returnNextIndex
     }
 
-    fun getValidAdView(adList: List<Ad>, shouldReturnAdIndex: Int, adListSize: Int): Ad? {
-        val targetAd = adList[shouldReturnAdIndex]
+    fun getValidAdView(adList: List<Ad>, targetIndex: Int): Ad? {
+        val targetAd = adList[targetIndex]
         if (!targetAd.isOnError()) {
             // 白板でなければそのまま利用する
             return targetAd
         }
-        var nextAdView: Ad? = null
-        var incrementedIndex = getIncrementedIndex(shouldReturnAdIndex, adListSize)
-        // adViewListを一周して有効な広告がないか探してくる
-        while (incrementedIndex != shouldReturnAdIndex) {
-            val adView = adList[incrementedIndex]
-            val isLoadedAd = !adView.isLoading() && !adView.isOnError()
+        var nextAd: Ad? = null
+        var incrementedIndex = getIncrementedIndex(targetIndex, adList.size)
+        // adListを一周して有効な広告がないか探してくる
+        while (incrementedIndex != targetIndex) {
+            val incrementedAd = adList[incrementedIndex]
+            val isLoadedAd = !incrementedAd.isLoading() && !incrementedAd.isOnError()
             if (isLoadedAd) {
-                nextAdView = adView
+                nextAd = incrementedAd
                 break
             }
-            incrementedIndex = getIncrementedIndex(incrementedIndex, adListSize)
+            incrementedIndex = getIncrementedIndex(incrementedIndex, adList.size)
         }
-        return nextAdView
+        return nextAd
     }
 
     fun bindAdView(container: FrameLayout, view: View?) {

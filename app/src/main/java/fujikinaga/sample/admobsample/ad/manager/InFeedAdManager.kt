@@ -36,7 +36,7 @@ class InFeedAdManager : LifecycleObserver {
             }
             inFeedAdList ?: return null
             shouldReturnInFeedAdIndex =
-                AdUtil.getIncrementedIndex(shouldReturnInFeedAdIndex, IN_FEED_AD_LIST_SIZE)
+                AdUtil.getIncrementedIndex(shouldReturnInFeedAdIndex, inFeedAdList!!.size)
             val shouldLoadAdIndexForPrefetch = AdUtil.getNextLoadAdIndex(
                 AD_NEXT_LOAD_INDEX_OFFSET,
                 shouldReturnInFeedAdIndex,
@@ -46,8 +46,7 @@ class InFeedAdManager : LifecycleObserver {
 
             return AdUtil.getValidAdView(
                 inFeedAdList!!,
-                shouldReturnInFeedAdIndex,
-                IN_FEED_AD_LIST_SIZE
+                shouldReturnInFeedAdIndex
             )
         }
 
